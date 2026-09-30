@@ -1,11 +1,21 @@
+import { useClientProfile } from '@/hooks/useClientProfile';
+
 interface CategoryChipsProps {
   selected?: string | null;
   onSelect: (category: string | null) => void;
 }
 
-const categories = ['Boots', 'Loafers', 'Casual', 'Heels', 'Formal'];
+const FALLBACK_CATEGORIES = ['Boots', 'Loafers', 'Casual', 'Heels', 'Formal'];
 
 const CategoryChips = ({ selected, onSelect }: CategoryChipsProps) => {
+  const { profile } = useClientProfile();
+
+  // Use categories from the Convex profile when available
+  const categories =
+    profile && profile.categories.length > 0
+      ? profile.categories.map((c) => c.name)
+      : FALLBACK_CATEGORIES;
+
   return (
     <div className="flex gap-2 overflow-x-auto scrollbar-hide px-4 py-3">
       {categories.map(cat => (

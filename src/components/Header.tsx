@@ -1,6 +1,7 @@
 import { Bell, Heart } from 'lucide-react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useFavorites } from '@/context/FavoritesContext';
+import { useClientProfile } from '@/hooks/useClientProfile';
 
 const StarIcon = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,19 +21,21 @@ const StarIcon = () => (
 
 const Header = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const { favorites } = useFavorites();
+  const { profile, slug } = useClientProfile();
 
-  const clientParam = searchParams.get('client');
-  const formattedClientName = clientParam
-    ? clientParam.replace(/_sample$/i, '').replace(/_/g, ' ').toUpperCase()
-    : 'AKOTET SHOES';
+  // Use Convex profile name if loaded, otherwise derive from URL slug
+  const displayName = profile
+    ? profile.businessName.toUpperCase()
+    : slug
+      ? slug.replace(/_sample$/i, '').replace(/_/g, ' ').toUpperCase()
+      : 'AKOTET SHOES';
 
   return (
     <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="flex items-center justify-between h-14 px-4 max-w-lg mx-auto">
         <button onClick={() => navigate('/')} className="flex items-center gap-2">
-          <span className="text-lg font-display font-black tracking-tight text-primary">{formattedClientName}</span>
+          <span className="text-lg font-display font-black tracking-tight text-primary">{displayName}</span>
           <span className="text-primary">
             <StarIcon />
           </span>
