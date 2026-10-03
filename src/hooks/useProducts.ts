@@ -1,16 +1,16 @@
 /**
  * Data hook: useProducts
  *
- * Currently returns mock data from src/data/products.ts.
- * When Convex is integrated, swap the implementation to use
- * useQuery(api.products.list, filters) etc.
+ * When a Convex client profile is provided, returns that profile's sample
+ * products. Otherwise falls back to the static mock data.
  */
 import { useMemo } from 'react';
-import { products as mockProducts, brands as mockBrands } from '@/data/products';
+import { products as mockProducts } from '@/data/products';
 import type { Product, ProductFilters } from '@/types';
+import { useClientProfile } from './useClientProfile';
 
-/** Map legacy product shape → Convex-ready Product type */
-function toProduct(p: (typeof mockProducts)[number]): Product {
+/** Map legacy mock product shape → Product type */
+function mockToProduct(p: (typeof mockProducts)[number]): Product {
   return {
     id: p.id,
     name: p.name,
@@ -34,11 +34,53 @@ function toProduct(p: (typeof mockProducts)[number]): Product {
   };
 }
 
-const allProducts: Product[] = mockProducts.map(toProduct);
+/** Map Convex profile product → Product type */
+function profileToProduct(p: {
+  id: string;
+  name: string;
+  price: string;
+  image?: string;
+  category: string;
+  description: string;
+}): Product {
+  // Parse price string like "4,500 ETB" → use 0 as numeric fallback (display only)
+  const numericPrice = parseFloat(p.price.replace(/[^0-9.]/g, '')) || 0;
+  return {
+    id: p.id,
+    name: p.name,
+    brand: 'Client',
+    category: p.category,
+    price: numericPrice,
+    images: p.image ? [p.image] : ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80'],
+    sizes: [],
+    colors: [],
+    description: p.description,
+    inStock: true,
+    // Mark all client products as new arrivals, trending, and special offers
+    // so they show in all 3 tabs
+    isNewArrival: true,
+    isTrending: true,
+    isSpecialOffer: true,
+    isBestSeller: false,
+    status: 'active',
+  };
+}
+
+const mockAllProducts: Product[] = mockProducts.map(mockToProduct);
 
 export function useProducts(filters?: ProductFilters) {
+  const { profile, isLoading } = useClientProfile();
+
+  // Use profile products when a client profile is loaded; fall back to mock
+  const sourceProducts: Product[] = useMemo(() => {
+    if (profile && profile.products.length > 0) {
+      return profile.products.map(profileToProduct);
+    }
+    return mockAllProducts;
+  }, [profile]);
+
   const filtered = useMemo(() => {
-    let result = allProducts;
+    let result = sourceProducts;
 
     if (filters?.brand) {
       result = result.filter(p => p.brand === filters.brand);
@@ -72,41 +114,18 @@ export function useProducts(filters?: ProductFilters) {
     }
 
     return result;
-  }, [filters]);
+  }, [sourceProducts, filters]);
 
   return {
     products: filtered,
-    isLoading: false, // will be true when using Convex query
+    isLoading,
   };
 }
 
-export function useProduct(id: string | undefined) {
-  const product = useMemo(
-    () => (id ? allProducts.find(p => p.id === id) ?? null : null),
-    [id]
-  );
-
-  return {
-    product,
-    isLoading: false,
-  };
-}
-
-export function useBrands() {
-  return {
-    brands: ['Akotet Shoes'] as string[],
-    isLoading: false,
-  };
-}
-
-export function useNewArrivals(limit = 4) {
-  return useMemo(() => allProducts.filter(p => p.isNewArrival).slice(0, limit), [limit]);
-}
-
-export function useTrending(limit = 4) {
-  return useMemo(() => allProducts.filter(p => p.isTrending).slice(0, limit), [limit]);
-}
-
-export function useSpecialOffers(limit = 4) {
-  return useMemo(() => allProducts.filter(p => p.isSpecialOffer || p.oldPrice).slice(0, limit), [limit]);
+export function useBrands(): string[] {
+  const { profile } = useClientProfile();
+  if (profile && profile.products.length > 0) {
+    return [profile.businessName];
+  }
+  return ['Akotet Shoes'];
 }
