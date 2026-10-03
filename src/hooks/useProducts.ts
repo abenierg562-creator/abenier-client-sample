@@ -129,3 +129,21 @@ export function useBrands(): string[] {
   }
   return ['Akotet Shoes'];
 }
+
+/** Look up a single product by id — searches both profile products and mock data */
+export function useProduct(id: string | undefined) {
+  const { profile, isLoading } = useClientProfile();
+
+  const product = useMemo(() => {
+    if (!id) return null;
+    // Search profile products first
+    if (profile && profile.products.length > 0) {
+      const found = profile.products.find(p => p.id === id);
+      if (found) return profileToProduct(found);
+    }
+    // Fall back to mock
+    return mockAllProducts.find(p => p.id === id) ?? null;
+  }, [id, profile]);
+
+  return { product, isLoading };
+}
