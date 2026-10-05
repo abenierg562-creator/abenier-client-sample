@@ -1,5 +1,6 @@
-import { ArrowLeft, Truck, Clock, MapPin, Phone } from 'lucide-react';
+﻿import { ArrowLeft, Truck, Clock, MapPin, Phone } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 
 const deliveryDetails = [
   { icon: Truck, title: 'Free Delivery', description: 'Free delivery on all shoe orders across Addis Ababa.' },
@@ -9,7 +10,7 @@ const deliveryDetails = [
 ];
 
 const DeliveryInfo = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
 
   return (
     <div className="pb-20">

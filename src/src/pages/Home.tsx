@@ -1,5 +1,6 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 import Header from '@/components/Header';
 import HeroBanner from '@/components/HeroBanner';
 import BrandChips from '@/components/BrandChips';
@@ -16,7 +17,7 @@ const collectionMap: Record<Tab, 'new-arrivals' | 'trending' | 'special-offers'>
 };
 
 const Home = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('New Arrivals');
 
   const { products: tabProducts } = useProducts({ collection: collectionMap[activeTab] });

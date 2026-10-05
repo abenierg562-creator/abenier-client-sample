@@ -1,5 +1,5 @@
-import { Home, Store, ShoppingBag, User } from 'lucide-react';
-import { useNavigate, useLocation } from 'react-router-dom';
+﻿import { Home, Store, ShoppingBag, User } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { useCart } from '@/context/CartContext';
 
 const tabs = [
@@ -10,7 +10,7 @@ const tabs = [
 ];
 
 const BottomNav = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
   const location = useLocation();
   const { totalItems } = useCart();
 

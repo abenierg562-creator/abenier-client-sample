@@ -1,5 +1,6 @@
-import { Heart } from 'lucide-react';
+﻿import { Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 import { useFavorites } from '@/context/FavoritesContext';
 import type { Product } from '@/types';
 
@@ -9,7 +10,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, compact = false }: ProductCardProps) => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
   const { toggleFavorite, isFavorite } = useFavorites();
   const fav = isFavorite(product.id);
 

@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
+﻿import { useClientNavigate } from '@/hooks/useClientNavigate';
 import { useClientProfile } from '@/hooks/useClientProfile';
 import heroBannerFallback from '@/assets/akotet-hero-banner.jpg';
 
 const HeroBanner = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
   const { profile, isLoading, slug } = useClientProfile();
 
   // Rules:

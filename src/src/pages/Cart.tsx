@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom';
+﻿import { useNavigate } from 'react-router-dom';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 import { ArrowLeft, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import CartItemRow from '@/components/CartItemRow';
@@ -7,7 +8,7 @@ import { toast } from 'sonner';
 const DELIVERY_FEE = 0;
 
 const Cart = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
   const { items, totalPrice, clearCart } = useCart();
 
   const handleCheckout = () => {

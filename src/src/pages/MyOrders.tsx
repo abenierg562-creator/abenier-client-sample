@@ -1,8 +1,9 @@
-import { ArrowLeft, Package } from 'lucide-react';
+﻿import { ArrowLeft, Package } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 
 const MyOrders = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
 
   return (
     <div className="pb-20">

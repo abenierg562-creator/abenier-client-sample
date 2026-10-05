@@ -1,5 +1,6 @@
-import { ArrowLeft, Package, MessageCircle, Truck, HelpCircle, User, ChevronRight, Settings, Zap, Sparkles } from 'lucide-react';
+﻿import { ArrowLeft, Package, MessageCircle, Truck, HelpCircle, User, ChevronRight, Settings, Zap, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 import { useTelegram } from '@/context/TelegramContext';
 
 const PHONE_NUMBER = '+251918170559';
@@ -13,7 +14,7 @@ const menuItems = [
 ];
 
 const Profile = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
   const { user, isTelegram } = useTelegram();
 
   const displayName = user?.firstName || 'Welcome!';

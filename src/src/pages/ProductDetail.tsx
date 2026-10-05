@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+﻿import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { ArrowLeft, Heart, Minus, Plus, MessageCircle, Truck, Shield } from 'lucide-react';
 import { useProduct } from '@/hooks/useProducts';
 import { useCart } from '@/context/CartContext';
@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
   const { addItem } = useCart();
   const { toggleFavorite, isFavorite } = useFavorites();
 

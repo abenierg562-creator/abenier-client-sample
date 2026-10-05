@@ -1,11 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+﻿import { useNavigate } from 'react-router-dom';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 import { ArrowLeft, Heart } from 'lucide-react';
 import { useFavorites } from '@/context/FavoritesContext';
 import { useProducts } from '@/hooks/useProducts';
 import ProductCard from '@/components/ProductCard';
 
 const Favorites = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
   const { favorites } = useFavorites();
   const { products } = useProducts();
 

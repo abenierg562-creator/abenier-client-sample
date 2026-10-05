@@ -1,10 +1,11 @@
-import { ArrowLeft, Phone, MessageCircle, HelpCircle } from 'lucide-react';
+﻿import { ArrowLeft, Phone, MessageCircle, HelpCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 
 const PHONE_NUMBER = '+251918170559';
 
 const StoreSupport = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
 
   return (
     <div className="pb-20">

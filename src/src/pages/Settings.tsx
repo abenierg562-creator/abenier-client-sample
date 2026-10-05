@@ -1,10 +1,11 @@
-import { ArrowLeft, Moon, Sun } from 'lucide-react';
+﻿import { ArrowLeft, Moon, Sun } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 import { Switch } from '@/components/ui/switch';
 import { useEffect, useState } from 'react';
 
 const Settings = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
   const [isDark, setIsDark] = useState(() => {
     return document.documentElement.classList.contains('dark');
   });

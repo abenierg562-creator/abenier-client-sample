@@ -1,9 +1,10 @@
-import { Bell, Heart } from 'lucide-react';
+﻿import { Bell, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 import { useFavorites } from '@/context/FavoritesContext';
 
 const Header = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
   const { favorites } = useFavorites();
 
   return (

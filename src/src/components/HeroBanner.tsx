@@ -1,9 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+﻿import { useNavigate } from 'react-router-dom';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 import { motion } from 'framer-motion';
 import heroBanner from '@/assets/hero-banner.jpg';
 
 const HeroBanner = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
 
   return (
     <div

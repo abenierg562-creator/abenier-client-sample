@@ -1,7 +1,7 @@
-import { Bell, Heart } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+﻿import { Bell, Heart } from 'lucide-react';
 import { useFavorites } from '@/context/FavoritesContext';
 import { useClientProfile } from '@/hooks/useClientProfile';
+import { useClientNavigate } from '@/hooks/useClientNavigate';
 
 const StarIcon = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,7 +20,7 @@ const StarIcon = () => (
 );
 
 const Header = () => {
-  const navigate = useNavigate();
+  const navigate = useClientNavigate();
   const { favorites } = useFavorites();
   const { profile, slug } = useClientProfile();
 
